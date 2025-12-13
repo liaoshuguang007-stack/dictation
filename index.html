@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>余音单词 Echo Vocabulary（网页版）</title>
+
+    <!-- 样式文件 -->
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="app" class="gradient-bg">
+
+    <!-- 顶部区域：波形条 + 状态栏 -->
+    <div class="top">
+        <canvas id="waveCanvas"></canvas>
+        <div id="status" class="status-label">
+            本轮：0 / 0　全部：0 / 0
+        </div>
+    </div>
+
+    <!-- 中央卡片区域 -->
+    <div class="card">
+        <div class="tip">请输入你听到的单词：</div>
+
+        <div class="center">
+            <input id="answer" type="text" autocomplete="off" />
+            <div id="feedback" class="feedback">&nbsp;</div>
+        </div>
+    </div>
+
+    <!-- 底部按钮：两排三列布局 -->
+    <div class="bottom-bar">
+
+        <!-- 第一排 -->
+        <button id="brandBtn">余音单词官网</button>
+        <button id="playBtn">播放</button>
+        <!-- 已改为 Collins 查词，但 id 保持 ldoceBtn 不变 -->
+        <button id="ldoceBtn">Collins 查词</button>
+
+        <!-- 第二排 -->
+        <button id="youdaoBtn">有道查词</button>
+        <button id="bingImgBtn">必应查图</button>
+        <button id="resetBtn">重置进度</button>
+
+    </div>
+</div>
+
+<!-- 自定义弹窗层（默认隐藏） -->
+<div class="popup-backdrop" id="popupBackdrop">
+    <div class="popup-card">
+        <div class="popup-title" id="popupTitle">标题</div>
+        <div class="popup-message" id="popupMessage">描述说明</div>
+
+        <input
+            type="text"
+            id="popupInput"
+            class="popup-input"
+            placeholder="请输入..."
+        />
+
+        <div class="popup-footer">
+            <button class="popup-btn popup-btn-cancel" id="popupCancelBtn">取消</button>
+            <button class="popup-btn popup-btn-ok" id="popupOkBtn">确定</button>
+        </div>
+    </div>
+</div>
+
+<!-- 主程序逻辑 -->
+<script src="app.js"></script>
+</body>
+</html>
