@@ -251,6 +251,9 @@ body, html {
 .popup-card {
     width: 90%;
     max-width: 380px;
+    max-height: 90vh;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
     background: linear-gradient(135deg, #0f2446, #081020);
     border-radius: 20px;
     padding: 20px;
@@ -275,10 +278,14 @@ body, html {
 }
 
 .popup-message {
-    font-size: 14px;
+font-size: 14px;
     color: #b8c9ff;
     margin-bottom: 14px;
     line-height: 1.45;
+    white-space: pre-line;   /* 让 \n 真正换行 */
+    max-height: 40vh;        /* 小屏幕避免撑出屏幕 */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* 输入框 */

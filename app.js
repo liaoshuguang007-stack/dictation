@@ -15,6 +15,15 @@ const popupCancelBtn = document.getElementById('popupCancelBtn');
 let dialogResolve = null;
 let popupMode = 'input'; // 'input' | 'confirm' | 'message'
 
+// 强制重置弹窗状态（修复部分 Android 浏览器第二次弹窗不显示的问题）
+function hardResetPopup() {
+    if (popupBackdrop) {
+        popupBackdrop.classList.remove('show');
+        // 触发一次 reflow，确保后续 add('show') 会生效
+        void popupBackdrop.offsetWidth;
+    }
+}
+
 function closePopup() {
     if (popupBackdrop) {
         popupBackdrop.classList.remove('show');
@@ -23,6 +32,7 @@ function closePopup() {
     popupMode = 'input';
 }
 
+
 function openPopup(options = {}) {
     if (!popupBackdrop || !popupTitle || !popupMessage || !popupOkBtn || !popupCancelBtn) {
         console.error('弹窗 DOM 未找到，请检查 index.html 中的 popup 结构。');
@@ -30,6 +40,13 @@ function openPopup(options = {}) {
         window.alert(options.message || '');
         return Promise.resolve({ confirmed: true, value: null });
     }
+
+    // 如果上一个弹窗还没正常关闭，先把它当作“取消”处理，避免卡死
+    if (dialogResolve) {
+        try { dialogResolve({ confirmed: false, value: null }); } catch (e) {}
+        dialogResolve = null;
+    }
+    hardResetPopup();
 
     const {
         title = '提示',
@@ -70,7 +87,10 @@ function openPopup(options = {}) {
         }
     }
 
-    popupBackdrop.classList.add('show');
+    // 用 rAF 确保样式更新后再显示（Android 上更稳定）
+    requestAnimationFrame(() => {
+        popupBackdrop.classList.add('show');
+    });
 
     setTimeout(() => {
         if (mode === 'input') {
