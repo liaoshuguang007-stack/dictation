@@ -323,14 +323,16 @@ window.addEventListener('load', async () => {
         // 2. 初始化 DOM 引用
         initDomRefs();
 
-        // 3. 加载单词
-        await loadWords();
+      // 3. 加载单词（必须 await）
+await loadWords();
 
-        // 4. 读取该账号的上次进度
-        loadLastProgress();
+// 4. 读取该账号的上次进度
+loadLastProgress();
 
-        // 5. 询问本轮起始序号
-        const startIndex = await askUserStartIndex();
+// 5. 再弹起始序号弹窗（此时 totalWordCount 已有值）
+const startIndex = await askUserStartIndex();
+
+
         buildSessionWordsFromStart(startIndex);
         lastProgressIndex = startIndex;
         saveLastProgress();
@@ -343,7 +345,7 @@ window.addEventListener('load', async () => {
             return;
         }
 
-        // 6. 绑定事件、显示第一题、启动波形动画
+        // 7. 绑定事件、显示第一题、启动波形动画
         initEvents();
         updateWordInfo();
         startWaveAnimation();
